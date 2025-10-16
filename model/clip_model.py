@@ -40,8 +40,6 @@ class ModelHandler:
                 segment_features.append(feature.cpu())
 
             frame_idx += 1
-
-        #이렇게 되면 마지막 1초가 남으면 그 장면은 고려를 안하게 되는거 같음 -> 개선이 필요할 수도
         
         cap.release()
 
