@@ -25,4 +25,4 @@ RUN python -c "import clip; clip.load('ViT-B/32')"
 COPY . .
 
 # 7. 컨테이너가 시작될 때 실행할 기본 명령어
-CMD ["python", "main.py"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

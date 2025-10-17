@@ -8,3 +8,9 @@ Pillow
 
 # QD-DETR 의존성
 scipy
+torchvision
+
+#fastapi 의존성
+fastapi
+uvicorn[standard]
+pydantic
