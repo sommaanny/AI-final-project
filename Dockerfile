@@ -21,6 +21,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 이렇게 하면 나중에 컨테이너를 실행할 때마다 다운로드할 필요가 없어짐
 RUN python -c "import clip; clip.load('ViT-B/32')"
 
+#ffmpeg 설치
+RUN pip install ffmpeg-python ftfy regex
+
 # 6. 소스 전체 복사 (model, main.py, requirements.txt, test_video.mp4 포함)
 COPY . .
 
