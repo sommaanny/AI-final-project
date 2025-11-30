@@ -87,40 +87,30 @@ class QDDETRPredictor:
         return predictions
 
 
-def run_example():
-    # load example data
-    from utils.basic_utils import load_jsonl
-    video_path = "run_on_video/example/RoripwjYFp8_60.0_210.0.mp4"
-    query_path = "run_on_video/example/queries.jsonl"
-    queries = load_jsonl(query_path)
-    query_text_list = [e["query"] for e in queries]
+def run(video_path: str, query: str):
     ckpt_path = "model/weights/model_best.ckpt"
+    query_text_list = [query]
+
+    print(video_path)
+    print(query_text_list)
 
     # run predictions
     print("Build models...")
     clip_model_name_or_path = "ViT-B/32"
-    # clip_model_name_or_path = "tmp/ViT-B-32.pt"
+
     qd_detr_predictor = QDDETRPredictor(
         ckpt_path=ckpt_path,
         clip_model_name_or_path=clip_model_name_or_path,
         device="cuda"
     )
+
     print("Run prediction...")
     predictions = qd_detr_predictor.localize_moment(
         video_path=video_path, query_list=query_text_list)
-
-    # print data
-    for idx, query_data in enumerate(queries):
-        print("-"*30 + f"idx{idx}")
-        print(f">> query: {query_data['query']}")
-        print(f">> video_path: {video_path}")
-        print(f">> GT moments: {query_data['relevant_windows']}")
-        print(f">> Predicted moments ([start_in_seconds, end_in_seconds, score]): "
-              f"{predictions[idx]['pred_relevant_windows']}")
-        print(f">> GT saliency scores (only localized 2-sec clips): {query_data['saliency_scores']}")
-        print(f">> Predicted saliency scores (for all 2-sec clip): "
-              f"{predictions[idx]['pred_saliency_scores']}")
-
+    
+    #가장 확률이 높은 예측 구간 반환
+    return predictions[0]['pred_relevant_windows'][0]
+    
 
 if __name__ == "__main__":
-    run_example()
+    run()
